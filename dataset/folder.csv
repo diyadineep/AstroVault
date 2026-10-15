@@ -1,0 +1,81 @@
+folder_id,project_id,parent_folder_id,folder_name,description,created_by,created_date,updated_date,status
+7001,5001,,Lunar Terrain Mapping,Root folder for the Lunar Terrain Mapping project,2001,2026-02-01 09:00:00,2026-08-17 12:00:00,Active
+7002,5001,7001,Documents,"Project reports, specifications, and documentation",2001,2026-02-01 09:00:00,2026-08-17 12:00:00,Active
+7003,5001,7001,Data,"Datasets, measurements, and analysis outputs",2001,2026-02-01 09:00:00,2026-08-17 12:00:00,Active
+7004,5001,7002,Reports,Technical and progress reports,2001,2026-02-01 09:00:00,2026-08-17 12:00:00,Active
+7005,5002,,Satellite Thermal Analysis,Root folder for the Satellite Thermal Analysis project,2002,2026-02-02 09:00:00,2026-08-17 12:00:00,Active
+7006,5002,7005,Documents,"Project reports, specifications, and documentation",2002,2026-02-02 09:00:00,2026-08-17 12:00:00,Active
+7007,5002,7005,Data,"Datasets, measurements, and analysis outputs",2002,2026-02-02 09:00:00,2026-08-17 12:00:00,Active
+7008,5002,7006,Reports,Technical and progress reports,2002,2026-02-02 09:00:00,2026-08-17 12:00:00,Active
+7009,5003,,Orbital Debris Tracking,Root folder for the Orbital Debris Tracking project,2004,2026-02-03 09:00:00,2026-08-17 12:00:00,Active
+7010,5003,7009,Documents,"Project reports, specifications, and documentation",2004,2026-02-03 09:00:00,2026-08-17 12:00:00,Active
+7011,5003,7009,Data,"Datasets, measurements, and analysis outputs",2004,2026-02-03 09:00:00,2026-08-17 12:00:00,Active
+7012,5003,7010,Reports,Technical and progress reports,2004,2026-02-03 09:00:00,2026-08-17 12:00:00,Active
+7013,5004,,Deep Space Communication Study,Root folder for the Deep Space Communication Study project,2005,2026-03-04 09:00:00,2026-08-17 12:00:00,Active
+7014,5004,7013,Documents,"Project reports, specifications, and documentation",2005,2026-03-04 09:00:00,2026-08-17 12:00:00,Active
+7015,5004,7013,Data,"Datasets, measurements, and analysis outputs",2005,2026-03-04 09:00:00,2026-08-17 12:00:00,Active
+7016,5004,7014,Reports,Technical and progress reports,2005,2026-03-04 09:00:00,2026-08-17 12:00:00,Active
+7017,5005,,Autonomous Rover Navigation,Root folder for the Autonomous Rover Navigation project,2007,2026-03-05 09:00:00,2026-08-17 12:00:00,Active
+7018,5005,7017,Documents,"Project reports, specifications, and documentation",2007,2026-03-05 09:00:00,2026-08-17 12:00:00,Active
+7019,5005,7017,Data,"Datasets, measurements, and analysis outputs",2007,2026-03-05 09:00:00,2026-08-17 12:00:00,Active
+7020,5005,7018,Reports,Technical and progress reports,2007,2026-03-05 09:00:00,2026-08-17 12:00:00,Active
+7021,5006,,Satellite Power Optimization,Root folder for the Satellite Power Optimization project,2008,2026-03-06 09:00:00,2026-08-17 12:00:00,Active
+7022,5006,7021,Documents,"Project reports, specifications, and documentation",2008,2026-03-06 09:00:00,2026-08-17 12:00:00,Active
+7023,5006,7021,Data,"Datasets, measurements, and analysis outputs",2008,2026-03-06 09:00:00,2026-08-17 12:00:00,Active
+7024,5006,7022,Reports,Technical and progress reports,2008,2026-03-06 09:00:00,2026-08-17 12:00:00,Active
+7025,5007,,Reusable Launch Vehicle Simulation,Root folder for the Reusable Launch Vehicle Simulation project,2010,2026-04-07 09:00:00,2026-08-17 12:00:00,Active
+7026,5007,7025,Documents,"Project reports, specifications, and documentation",2010,2026-04-07 09:00:00,2026-08-17 12:00:00,Active
+7027,5007,7025,Data,"Datasets, measurements, and analysis outputs",2010,2026-04-07 09:00:00,2026-08-17 12:00:00,Active
+7028,5007,7026,Reports,Technical and progress reports,2010,2026-04-07 09:00:00,2026-08-17 12:00:00,Active
+7029,5008,,Micro Propulsion System,Root folder for the Micro Propulsion System project,2011,2026-04-08 09:00:00,2026-08-17 12:00:00,Active
+7030,5008,7029,Documents,"Project reports, specifications, and documentation",2011,2026-04-08 09:00:00,2026-08-17 12:00:00,Active
+7031,5008,7029,Data,"Datasets, measurements, and analysis outputs",2011,2026-04-08 09:00:00,2026-08-17 12:00:00,Active
+7032,5008,7030,Reports,Technical and progress reports,2011,2026-04-08 09:00:00,2026-08-17 12:00:00,Active
+7033,5009,,CubeSat Alpha,Root folder for the CubeSat Alpha project,2013,2026-04-09 09:00:00,2026-08-17 12:00:00,Active
+7034,5009,7033,Documents,"Project reports, specifications, and documentation",2013,2026-04-09 09:00:00,2026-08-17 12:00:00,Active
+7035,5009,7033,Data,"Datasets, measurements, and analysis outputs",2013,2026-04-09 09:00:00,2026-08-17 12:00:00,Active
+7036,5009,7034,Reports,Technical and progress reports,2013,2026-04-09 09:00:00,2026-08-17 12:00:00,Active
+7037,5010,,Ground Station Automation,Root folder for the Ground Station Automation project,2014,2026-05-10 09:00:00,2026-08-17 12:00:00,Active
+7038,5010,7037,Documents,"Project reports, specifications, and documentation",2014,2026-05-10 09:00:00,2026-08-17 12:00:00,Active
+7039,5010,7037,Data,"Datasets, measurements, and analysis outputs",2014,2026-05-10 09:00:00,2026-08-17 12:00:00,Active
+7040,5010,7038,Reports,Technical and progress reports,2014,2026-05-10 09:00:00,2026-08-17 12:00:00,Active
+7041,5011,,Student Nanosatellite Mission,Root folder for the Student Nanosatellite Mission project,2016,2026-05-11 09:00:00,2026-08-17 12:00:00,Active
+7042,5011,7041,Documents,"Project reports, specifications, and documentation",2016,2026-05-11 09:00:00,2026-08-17 12:00:00,Active
+7043,5011,7041,Data,"Datasets, measurements, and analysis outputs",2016,2026-05-11 09:00:00,2026-08-17 12:00:00,Active
+7044,5011,7042,Reports,Technical and progress reports,2016,2026-05-11 09:00:00,2026-08-17 12:00:00,Active
+7045,5012,,Atmospheric Payload Study,Root folder for the Atmospheric Payload Study project,2017,2026-05-12 09:00:00,2026-08-17 12:00:00,Active
+7046,5012,7045,Documents,"Project reports, specifications, and documentation",2017,2026-05-12 09:00:00,2026-08-17 12:00:00,Active
+7047,5012,7045,Data,"Datasets, measurements, and analysis outputs",2017,2026-05-12 09:00:00,2026-08-17 12:00:00,Active
+7048,5012,7046,Reports,Technical and progress reports,2017,2026-05-12 09:00:00,2026-08-17 12:00:00,Active
+7049,5013,,Earth Observation Analytics,Root folder for the Earth Observation Analytics project,2019,2026-06-13 09:00:00,2026-08-17 12:00:00,Active
+7050,5013,7049,Documents,"Project reports, specifications, and documentation",2019,2026-06-13 09:00:00,2026-08-17 12:00:00,Active
+7051,5013,7049,Data,"Datasets, measurements, and analysis outputs",2019,2026-06-13 09:00:00,2026-08-17 12:00:00,Active
+7052,5013,7050,Reports,Technical and progress reports,2019,2026-06-13 09:00:00,2026-08-17 12:00:00,Active
+7053,5014,,Attitude Control Prototype,Root folder for the Attitude Control Prototype project,2020,2026-06-14 09:00:00,2026-08-17 12:00:00,Active
+7054,5014,7053,Documents,"Project reports, specifications, and documentation",2020,2026-06-14 09:00:00,2026-08-17 12:00:00,Active
+7055,5014,7053,Data,"Datasets, measurements, and analysis outputs",2020,2026-06-14 09:00:00,2026-08-17 12:00:00,Active
+7056,5014,7054,Reports,Technical and progress reports,2020,2026-06-14 09:00:00,2026-08-17 12:00:00,Active
+7057,5015,,Space Weather Monitoring,Root folder for the Space Weather Monitoring project,2022,2026-06-15 09:00:00,2026-08-17 12:00:00,Active
+7058,5015,7057,Documents,"Project reports, specifications, and documentation",2022,2026-06-15 09:00:00,2026-08-17 12:00:00,Active
+7059,5015,7057,Data,"Datasets, measurements, and analysis outputs",2022,2026-06-15 09:00:00,2026-08-17 12:00:00,Active
+7060,5015,7058,Reports,Technical and progress reports,2022,2026-06-15 09:00:00,2026-08-17 12:00:00,Active
+7061,5016,,Low Earth Orbit Imaging,Root folder for the Low Earth Orbit Imaging project,2023,2026-07-16 09:00:00,2026-08-17 12:00:00,Active
+7062,5016,7061,Documents,"Project reports, specifications, and documentation",2023,2026-07-16 09:00:00,2026-08-17 12:00:00,Active
+7063,5016,7061,Data,"Datasets, measurements, and analysis outputs",2023,2026-07-16 09:00:00,2026-08-17 12:00:00,Active
+7064,5016,7062,Reports,Technical and progress reports,2023,2026-07-16 09:00:00,2026-08-17 12:00:00,Active
+7065,5017,,Flood Mapping from Satellite Data,Root folder for the Flood Mapping from Satellite Data project,2025,2026-07-17 09:00:00,2026-08-17 12:00:00,Active
+7066,5017,7065,Documents,"Project reports, specifications, and documentation",2025,2026-07-17 09:00:00,2026-08-17 12:00:00,Active
+7067,5017,7065,Data,"Datasets, measurements, and analysis outputs",2025,2026-07-17 09:00:00,2026-08-17 12:00:00,Active
+7068,5017,7066,Reports,Technical and progress reports,2025,2026-07-17 09:00:00,2026-08-17 12:00:00,Active
+7069,5018,,Agricultural Monitoring System,Root folder for the Agricultural Monitoring System project,2026,2026-07-18 09:00:00,2026-08-17 12:00:00,Active
+7070,5018,7069,Documents,"Project reports, specifications, and documentation",2026,2026-07-18 09:00:00,2026-08-17 12:00:00,Active
+7071,5018,7069,Data,"Datasets, measurements, and analysis outputs",2026,2026-07-18 09:00:00,2026-08-17 12:00:00,Active
+7072,5018,7070,Reports,Technical and progress reports,2026,2026-07-18 09:00:00,2026-08-17 12:00:00,Active
+7073,5019,,Small Satellite Bus Design,Root folder for the Small Satellite Bus Design project,2028,2026-07-19 09:00:00,2026-08-17 12:00:00,Active
+7074,5019,7073,Documents,"Project reports, specifications, and documentation",2028,2026-07-19 09:00:00,2026-08-17 12:00:00,Active
+7075,5019,7073,Data,"Datasets, measurements, and analysis outputs",2028,2026-07-19 09:00:00,2026-08-17 12:00:00,Active
+7076,5019,7074,Reports,Technical and progress reports,2028,2026-07-19 09:00:00,2026-08-17 12:00:00,Active
+7077,5020,,Orbit Prediction Toolkit,Root folder for the Orbit Prediction Toolkit project,2029,2026-07-20 09:00:00,2026-08-17 12:00:00,Active
+7078,5020,7077,Documents,"Project reports, specifications, and documentation",2029,2026-07-20 09:00:00,2026-08-17 12:00:00,Active
+7079,5020,7077,Data,"Datasets, measurements, and analysis outputs",2029,2026-07-20 09:00:00,2026-08-17 12:00:00,Active
+7080,5020,7078,Reports,Technical and progress reports,2029,2026-07-20 09:00:00,2026-08-17 12:00:00,Active

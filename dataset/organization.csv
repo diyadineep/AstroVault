@@ -1,0 +1,11 @@
+organization_id,organization_name,organization_code,organization_type,phone_no,email,city,state,country,pin_code,registration_no,website,created_at,status
+1001,Indian Space Research Centre,ISRC,Government,08023456789,admin@isrc.gov.in,Bengaluru,Karnataka,India,560094,GOV-SPC-001,https://www.isrc.gov.in,2026-01-10 09:15:00,Active
+1002,National Orbital Research Agency,NORA,Government,01124567890,contact@nora.gov.in,New Delhi,Delhi,India,110001,GOV-SPC-002,https://www.nora.gov.in,2026-01-18 10:30:00,Active
+1003,AstroTech Systems Pvt Ltd,ATS,Private,04027654321,admin@astrotech.in,Hyderabad,Telangana,India,500081,PVT-SPC-101,https://www.astrotech.in,2026-02-02 11:00:00,Active
+1004,SkyForge Aerospace Labs,SFAL,Private,02026789012,info@skyforge.in,Pune,Maharashtra,India,411057,PVT-SPC-102,https://www.skyforge.in,2026-02-14 14:20:00,Active
+1005,Amrita Space Research Lab,ASRL,University Lab,04222680000,admin@asrl.edu,Coimbatore,Tamil Nadu,India,641112,UNI-LAB-201,https://www.amrita.edu,2026-03-01 09:45:00,Active
+1006,Kerala University Satellite Lab,KUSL,University Lab,04712345678,space@kusl.edu,Thiruvananthapuram,Kerala,India,695581,UNI-LAB-202,https://www.kusl.edu,2026-03-12 13:10:00,Active
+1007,Cosmos Dynamics Pvt Ltd,CDPL,Private,04428123456,admin@cosmosdynamics.in,Chennai,Tamil Nadu,India,600113,PVT-SPC-103,https://www.cosmosdynamics.in,2026-04-05 10:05:00,Active
+1008,Institute of Space Science Laboratory,ISSL,University Lab,08029876543,research@issl.edu,Bengaluru,Karnataka,India,560012,UNI-LAB-203,https://www.issl.edu,2026-04-21 15:30:00,Active
+1009,Bharat Remote Sensing Centre,BRSC,Government,05222345678,admin@brsc.gov.in,Lucknow,Uttar Pradesh,India,226010,GOV-SPC-003,https://www.brsc.gov.in,2026-05-08 12:00:00,Active
+1010,NovaOrbit Research Pvt Ltd,NORL,Private,04842765432,contact@novaorbit.in,Kochi,Kerala,India,682030,PVT-SPC-104,https://www.novaorbit.in,2026-05-26 16:40:00,Inactive

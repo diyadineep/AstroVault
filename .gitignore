@@ -1,0 +1,34 @@
+
+# Python virtual environments
+venv/
+.venv/
+env/
+backend/venv/
+backend/.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local configuration
+instance/config.py
+
+# Uploaded files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Logs and database backups
+*.log
+*.dump
+*.backup
+*.bak
+
+# Editor and operating system files
+.vscode/
+.DS_Store
+Thumbs.db

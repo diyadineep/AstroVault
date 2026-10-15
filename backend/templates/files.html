@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroVault | Files</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/files.css') }}">
+</head>
+<body>
+<div class="app-container">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">AV</div>
+            <div>
+                <h2>AstroVault</h2>
+                <p>Research Workspace</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="/dashboard" class="nav-item">Dashboard</a>
+            <a href="/users" class="nav-item">Users</a>
+            <a href="/projects" class="nav-item">Projects</a>
+            <a href="/members" class="nav-item">Project Members</a>
+            <a href="/folders" class="nav-item">Folders</a>
+            <a href="/files" class="nav-item active">Files</a>
+            <a href="/versions" class="nav-item">File Versions</a>
+            <a href="/activity" class="nav-item">Activity Logs</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="/logout" class="logout-button">Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-header">
+            <div>
+                <h1>File Management</h1>
+                <p>Upload and organize research documents</p>
+            </div>
+            <button type="button" class="add-button"
+                    onclick="openUploadModal()">
+                + Upload File
+            </button>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h3>Research Files</h3>
+                    <p>File metadata is stored in PostgreSQL</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>File</th>
+                        <th>Folder</th>
+                        <th>Project</th>
+                        <th>Size</th>
+                        <th>Version</th>
+                        <th>Uploaded By</th>
+                        <th>Upload Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for file in files %}
+                        <tr>
+                            <td>{{ file[0] }}</td>
+                            <td>
+                                <strong>{{ file[1] }}</strong>
+                                {% if file[11] %}
+                                    <div class="folder-description">
+                                        {{ file[11] }}
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td>{{ file[5] }}</td>
+                            <td>{{ file[6] }}</td>
+                            <td>
+                                {% if file[3] is not none %}
+                                    {{ "%.2f"|format(file[3] / 1024) }} KB
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>{{ file[4] }}</td>
+                            <td>{{ file[7] }} {{ file[8] }}</td>
+                            <td>{{ file[9] }}</td>
+                            <td>
+                                <span class="status
+                                    {% if file[10] == 'Active' %}
+                                        status-active
+                                    {% else %}
+                                        status-other
+                                    {% endif %}">
+                                    {{ file[10] }}
+                                </span>
+                            </td>
+
+                            <!-- ACTIONS: DOWNLOAD AND EDIT -->
+                            <td>
+                                {% if file[10] == 'Active' %}
+                                    <a
+                                        href="{{ url_for('download_file', file_id=file[0]) }}"
+                                        class="edit-project-btn"
+                                        style="text-decoration: none; display: inline-block;">
+                                        Download
+                                    </a>
+                                {% endif %}
+
+                                <button type="button"
+                                        class="edit-project-btn"
+                                        data-id="{{ file[0] }}"
+                                        data-name="{{ file[1] }}"
+                                        data-folder="{{ file[12] }}"
+                                        data-description="{{ file[11] or '' }}"
+                                        data-status="{{ file[10] }}"
+                                        onclick="openEditModal(this)">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="10">
+                                No files found. Upload your first file to begin.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- UPLOAD MODAL -->
+<div id="uploadModal" class="modal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <div>
+                <h2>Upload File</h2>
+                <p>Choose a file and the destination folder</p>
+            </div>
+            <button type="button" class="close-button"
+                    onclick="closeUploadModal()">×</button>
+        </div>
+
+        <form method="POST" action="{{ url_for('add_file') }}"
+              enctype="multipart/form-data">
+            <div class="form-grid">
+                
+                <div class="form-group">
+                    <label for="upload_folder_id">Folder</label>
+                    <select id="upload_folder_id" name="folder_id" required>
+                        <option value="">Select folder</option>
+                        {% for folder in folders %}
+                            <option value="{{ folder[0] }}">
+                                {{ folder[3] }} / {{ folder[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="uploaded_file">Choose File</label>
+                    <input id="uploaded_file" type="file"
+                           name="uploaded_file" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="upload_description">Description</label>
+                    <textarea id="upload_description" name="description"
+                              rows="4"
+                              placeholder="Describe this research document"></textarea>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="cancel-button"
+                        onclick="closeUploadModal()">Cancel</button>
+                <button type="submit" class="save-button">Upload File</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- EDIT METADATA MODAL -->
+<div id="editModal" class="modal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <div>
+                <h2>Edit File Details</h2>
+                <p>Update the file name, folder, description or status</p>
+            </div>
+            <button type="button" class="close-button"
+                    onclick="closeEditModal()">×</button>
+        </div>
+
+        <form id="editForm" method="POST">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="edit_file_id">File ID</label>
+                    <input id="edit_file_id" type="text" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_file_name">File Name</label>
+                    <input id="edit_file_name" type="text"
+                           name="file_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_folder_id">Folder</label>
+                    <select id="edit_folder_id" name="folder_id" required>
+                        <option value="">Select folder</option>
+                        {% for folder in folders %}
+                            <option value="{{ folder[0] }}">
+                                {{ folder[3] }} / {{ folder[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_status">Status</label>
+                    <select id="edit_status" name="status" required>
+                        <option value="Active">Active</option>
+                        <option value="Archived">Archived</option>
+                        <option value="Deleted">Deleted</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="edit_description">Description</label>
+                    <textarea id="edit_description" name="description"
+                              rows="4"></textarea>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="cancel-button"
+                        onclick="closeEditModal()">Cancel</button>
+                <button type="submit" class="save-button">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openUploadModal() {
+    document.getElementById("uploadModal").style.display = "flex";
+}
+
+function closeUploadModal() {
+    document.getElementById("uploadModal").style.display = "none";
+}
+
+function openEditModal(button) {
+    document.getElementById("editForm").action =
+        "/files/edit/" + encodeURIComponent(button.dataset.id);
+
+    document.getElementById("edit_file_id").value = button.dataset.id;
+    document.getElementById("edit_file_name").value =
+        button.dataset.name || "";
+    document.getElementById("edit_folder_id").value =
+        button.dataset.folder || "";
+    document.getElementById("edit_description").value =
+        button.dataset.description || "";
+    document.getElementById("edit_status").value =
+        button.dataset.status || "Active";
+
+    document.getElementById("editModal").style.display = "flex";
+}
+
+function closeEditModal() {
+    document.getElementById("editModal").style.display = "none";
+}
+
+window.addEventListener("click", function(event) {
+    if (event.target === document.getElementById("uploadModal")) {
+        closeUploadModal();
+    }
+
+    if (event.target === document.getElementById("editModal")) {
+        closeEditModal();
+    }
+});
+</script>
+
+</body>
+</html>

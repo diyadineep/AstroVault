@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroVault | File Versions</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/versions.css') }}">
+</head>
+
+<body>
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">AV</div>
+            <div>
+                <h2>AstroVault</h2>
+                <p>Research Workspace</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="/dashboard" class="nav-item">Dashboard</a>
+            <a href="/users" class="nav-item">Users</a>
+            <a href="/projects" class="nav-item">Projects</a>
+            <a href="/members" class="nav-item">Project Members</a>
+            <a href="/folders" class="nav-item">Folders</a>
+            <a href="/files" class="nav-item">Files</a>
+            <a href="/versions" class="nav-item active">File Versions</a>
+            <a href="/activity" class="nav-item">Activity Logs</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="/logout" class="logout-button">Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <div class="top-header">
+            <div>
+                <h1>File Version Management</h1>
+                <p>Track and manage different versions of research files</p>
+            </div>
+
+            <button type="button" class="add-button"
+                    onclick="openVersionModal()">
+                + Add Version
+            </button>
+        </div>
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- VERSION HISTORY TABLE -->
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h3>File Version History</h3>
+                    <p>Complete version history stored in PostgreSQL</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Version ID</th>
+                        <th>File</th>
+                        <th>Version</th>
+                        <th>Size</th>
+                        <th>Uploaded By</th>
+                        <th>Uploaded Date</th>
+                        <th>Changes</th>
+                        <th>Current</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for version in versions %}
+                        <tr>
+                            <td>{{ version[0] }}</td>
+
+                            <td>
+                                <strong>{{ version[1] }}</strong>
+                            </td>
+
+                            <td>
+                                <span class="version-badge">
+                                    v{{ version[2] }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if version[3] is not none %}
+                                    {{ "{:,}".format(version[3]) }} bytes
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ version[4] or '' }}
+                                {{ version[5] or '' }}
+                            </td>
+
+                            <td>{{ version[6] or '-' }}</td>
+
+                            <td>
+                                {% if version[7] %}
+                                    {{ version[7] }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if version[8] %}
+                                    <span class="current-badge">Current</span>
+                                {% else %}
+                                    <span class="old-badge">Previous</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">
+                                No file versions found.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+
+<!-- ADD VERSION MODAL -->
+<div id="versionModal" class="modal">
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <div>
+                <h2>Add New Version</h2>
+                <p>Create a new version of an existing research file</p>
+            </div>
+
+            <button type="button" class="close-button"
+                    onclick="closeVersionModal()">×</button>
+        </div>
+
+        
+        <form method="POST"
+            action="{{ url_for('add_version') }}"
+            enctype="multipart/form-data">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="file_id">File</label>
+                    <select id="file_id" name="file_id" required>
+                        <option value="">Select file</option>
+                        {% for file in files %}
+                            <option value="{{ file[0] }}">
+                                {{ file[0] }} - {{ file[1] }}
+                                (Current: v{{ file[2] }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="uploaded_file">Choose New Version</label>
+                    <input id="uploaded_file"
+                        type="file"
+                        name="uploaded_file"
+                        required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="change_description">Change Description</label>
+                    <textarea id="change_description"
+                            name="change_description"
+                            rows="4"
+                            placeholder="Describe what changed in this version"></textarea>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+                <button type="button"
+                        class="cancel-button"
+                        onclick="closeVersionModal()">
+                    Cancel
+                </button>
+
+                <button type="submit" class="save-button">
+                    Add Version
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+<script>
+function openVersionModal() {
+    document.getElementById("versionModal").style.display = "flex";
+}
+
+function closeVersionModal() {
+    document.getElementById("versionModal").style.display = "none";
+}
+
+window.addEventListener("click", function(event) {
+    const modal = document.getElementById("versionModal");
+
+    if (event.target === modal) {
+        closeVersionModal();
+    }
+});
+</script>
+
+</body>
+</html>

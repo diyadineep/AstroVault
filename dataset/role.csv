@@ -1,0 +1,5 @@
+role_id,role_name,description,created_date,status
+3001,Admin,Full administrative access within the organization,2026-01-01 09:00:00,Active
+3002,Project Manager,Can create and manage projects and project members,2026-01-01 09:05:00,Active
+3003,Researcher,Can work on assigned projects and upload or update research documents,2026-01-01 09:10:00,Active
+3004,Viewer,Can view and download permitted project documents,2026-01-01 09:15:00,Active

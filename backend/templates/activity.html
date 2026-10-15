@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroVault | Activity Logs</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/activity.css') }}">
+</head>
+
+<body>
+<div class="app-container">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">AV</div>
+            <div>
+                <h2>AstroVault</h2>
+                <p>Research Workspace</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="/dashboard" class="nav-item">Dashboard</a>
+            <a href="/users" class="nav-item">Users</a>
+            <a href="/projects" class="nav-item">Projects</a>
+            <a href="/members" class="nav-item">Project Members</a>
+            <a href="/folders" class="nav-item">Folders</a>
+            <a href="/files" class="nav-item">Files</a>
+            <a href="/versions" class="nav-item">File Versions</a>
+            <a href="/activity" class="nav-item active">Activity Logs</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="/logout" class="logout-button">Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <div class="top-header">
+            <div>
+                <h1>Activity Logs</h1>
+                <p>Review actions performed in your organization</p>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h3>Activity History</h3>
+                    <p>Audit trail for organizational activity</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Log ID</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Entity</th>
+                        <th>Entity ID</th>
+                        <th>Description</th>
+                        <th>Date &amp; Time</th>
+                        <th>IP Address</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for log in logs %}
+                        <tr>
+                            <td>{{ log[0] }}</td>
+
+                            <td>
+                                {{ log[1] or '' }} {{ log[2] or '' }}
+                            </td>
+
+                            <td>
+                                <span class="version-badge">
+                                    {{ log[3] }}
+                                </span>
+                            </td>
+
+                            <td>{{ log[4] or '-' }}</td>
+                            <td>{{ log[5] if log[5] is not none else '-' }}</td>
+                            <td>{{ log[6] or '-' }}</td>
+                            <td>{{ log[7] or '-' }}</td>
+                            <td>{{ log[8] or '-' }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">No activity logs found.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+</body>
+</html>

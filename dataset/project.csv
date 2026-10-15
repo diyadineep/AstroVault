@@ -1,0 +1,21 @@
+project_id,org_id,project_name,description,project_type,start_date,end_date,status,created_by,created_date,updated_date
+5001,1001,Lunar Terrain Mapping,High-resolution mapping of lunar terrain using orbital imagery,Lunar Mission,2026-02-01,2027-01-31,Active,2001,2026-02-01 09:00:00,2026-08-12 14:30:00
+5002,1001,Satellite Thermal Analysis,Thermal behavior analysis for small satellite subsystems,Satellite,2026-03-10,2026-12-20,Active,2002,2026-03-10 10:15:00,2026-08-10 11:20:00
+5003,1002,Orbital Debris Tracking,Monitoring and classification of orbital debris objects,Research,2026-02-15,2027-06-30,Active,2004,2026-02-15 09:30:00,2026-08-15 16:00:00
+5004,1002,Deep Space Communication Study,Study of communication reliability for deep-space missions,Communication,2026-04-01,2027-03-31,Planning,2005,2026-04-01 13:10:00,2026-08-01 10:00:00
+5005,1003,Autonomous Rover Navigation,Development of AI-assisted navigation for planetary rovers,Rover,2026-02-20,2027-02-28,Active,2007,2026-02-20 11:00:00,2026-08-16 09:40:00
+5006,1003,Satellite Power Optimization,Optimization of power management in small satellites,Satellite,2026-05-01,2026-11-30,Active,2008,2026-05-01 10:00:00,2026-08-09 17:25:00
+5007,1004,Reusable Launch Vehicle Simulation,Simulation of reusable launch vehicle flight and recovery,Simulation,2026-03-05,2027-05-31,Active,2010,2026-03-05 09:20:00,2026-08-14 15:10:00
+5008,1004,Micro Propulsion System,Design study for a micro propulsion system for nanosatellites,Propulsion,2026-04-18,2027-01-15,On Hold,2011,2026-04-18 12:45:00,2026-07-30 12:00:00
+5009,1005,CubeSat Alpha,Development of a university CubeSat for atmospheric data collection,CubeSat,2026-03-15,2027-05-30,Active,2013,2026-03-15 08:45:00,2026-08-17 19:10:00
+5010,1005,Ground Station Automation,Automation platform for university satellite ground station operations,Ground Station,2026-05-10,2027-02-28,Active,2014,2026-05-10 10:30:00,2026-08-13 13:50:00
+5011,1006,Student Nanosatellite Mission,Development of a student nanosatellite research mission,Nanosatellite,2026-04-01,2027-08-31,Active,2016,2026-04-01 09:00:00,2026-08-15 10:30:00
+5012,1006,Atmospheric Payload Study,Design and testing of an atmospheric sensing payload,Payload,2026-06-01,2027-03-31,Planning,2017,2026-06-01 11:30:00,2026-08-04 14:00:00
+5013,1007,Earth Observation Analytics,Processing and analysis of earth observation satellite imagery,Earth Observation,2026-04-20,2027-04-30,Active,2019,2026-04-20 10:10:00,2026-08-17 14:20:00
+5014,1007,Attitude Control Prototype,Prototype development of an attitude determination and control system,Satellite,2026-06-15,2027-01-31,Active,2020,2026-06-15 09:50:00,2026-08-11 16:45:00
+5015,1008,Space Weather Monitoring,Research project for monitoring solar activity and space weather,Research,2026-05-01,2027-05-01,Active,2022,2026-05-01 10:25:00,2026-08-16 12:10:00
+5016,1008,Low Earth Orbit Imaging,Study of image acquisition and processing from low Earth orbit,Earth Observation,2026-06-10,2027-02-15,Active,2023,2026-06-10 11:15:00,2026-08-12 18:05:00
+5017,1009,Flood Mapping from Satellite Data,Remote sensing project for flood mapping and disaster assessment,Remote Sensing,2026-05-20,2026-12-31,Active,2025,2026-05-20 09:35:00,2026-08-17 08:50:00
+5018,1009,Agricultural Monitoring System,Satellite-based agricultural monitoring and crop condition analysis,Remote Sensing,2026-06-05,2027-03-31,Active,2026,2026-06-05 10:45:00,2026-08-10 12:30:00
+5019,1010,Small Satellite Bus Design,Design of a modular small satellite bus platform,Satellite,2026-06-01,2027-06-30,Active,2028,2026-06-01 09:15:00,2026-08-16 15:20:00
+5020,1010,Orbit Prediction Toolkit,Development of an orbit prediction and analysis toolkit,Software,2026-07-01,2027-01-31,Planning,2029,2026-07-01 13:00:00,2026-08-08 10:10:00

@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroVault | Folders</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/folders.css') }}">
+</head>
+
+<body>
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">AV</div>
+            <div>
+                <h2>AstroVault</h2>
+                <p>Research Workspace</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="/dashboard" class="nav-item">Dashboard</a>
+            <a href="/users" class="nav-item">Users</a>
+            <a href="/projects" class="nav-item">Projects</a>
+            <a href="/members" class="nav-item">Project Members</a>
+            <a href="/folders" class="nav-item active">Folders</a>
+            <a href="/files" class="nav-item">Files</a>
+            <a href="/versions" class="nav-item">File Versions</a>
+            <a href="/activity" class="nav-item">Activity Logs</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="/logout" class="logout-button">Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <div class="top-header">
+            <div>
+                <h1>Folder Management</h1>
+                <p>Organize research documents within projects</p>
+            </div>
+
+            <button type="button" class="add-button"
+                    onclick="openAddModal()">
+                + Create Folder
+            </button>
+        </div>
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- FOLDER TABLE -->
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h3>Research Folders</h3>
+                    <p>Folder hierarchy stored in PostgreSQL</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Folder</th>
+                        <th>Project</th>
+                        <th>Parent Folder</th>
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for folder in folders %}
+                        <tr>
+                            <td>{{ folder[0] }}</td>
+
+                            <td>
+                                <strong>{{ folder[1] }}</strong>
+                                {% if folder[4] %}
+                                    <div class="folder-description">
+                                        {{ folder[4] }}
+                                    </div>
+                                {% endif %}
+                            </td>
+
+                            <td>{{ folder[2] or '-' }}</td>
+
+                            <td>
+                                {% if folder[3] %}
+                                    {{ folder[3] }}
+                                {% else %}
+                                    <span class="root-badge">Root</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ ((folder[5] or '') ~ ' ' ~ (folder[6] or ''))|trim or 'Unknown' }}
+                            </td>
+
+                            <td>{{ folder[7] or '-' }}</td>
+
+                            <td>
+                                <span class="status
+                                    {% if folder[8] == 'Active' %}
+                                        status-active
+                                    {% else %}
+                                        status-other
+                                    {% endif %}">
+                                    {{ folder[8] or 'Unknown' }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <button
+                                    type="button"
+                                    class="edit-project-btn"
+                                    data-id="{{ folder[0] }}"
+                                    data-name="{{ folder[1] }}"
+                                    data-project="{{ folder[9] }}"
+                                    data-parent="{{ folder[10] or '' }}"
+                                    data-description="{{ folder[4] or '' }}"
+                                    data-status="{{ folder[8] }}"
+                                    onclick="openEditModal(this)">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">
+                                No folders found. Click Create Folder to add one.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+
+<!-- =====================================================
+     ADD FOLDER MODAL
+====================================================== -->
+<div id="addFolderModal" class="modal">
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <div>
+                <h2>Create Folder</h2>
+                <p>Add a folder to an AstroVault project</p>
+            </div>
+            <button type="button" class="close-button"
+                    onclick="closeAddModal()">×</button>
+        </div>
+
+        <form method="POST" action="{{ url_for('add_folder') }}">
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="add_folder_id">Folder ID</label>
+                    <input id="add_folder_id" type="number"
+                           name="folder_id" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_project_id">Project</label>
+                    <select id="add_project_id" name="project_id" required
+                            onchange="filterAddParents()">
+                        <option value="">Select project</option>
+                        {% for project in projects %}
+                            <option value="{{ project[0] }}">
+                                {{ project[0] }} - {{ project[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_folder_name">Folder Name</label>
+                    <input id="add_folder_name" type="text"
+                           name="folder_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_parent_folder_id">Parent Folder</label>
+                    <select id="add_parent_folder_id" name="parent_folder_id">
+                        <option value="">No Parent - Root Folder</option>
+                        {% for folder in parent_folders %}
+                            <option value="{{ folder[0] }}"
+                                    data-project="{{ folder[2] }}">
+                                {{ folder[0] }} - {{ folder[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_status">Status</label>
+                    <select id="add_status" name="status" required>
+                        <option value="Active">Active</option>
+                        <option value="Archived">Archived</option>
+                        <option value="Deleted">Deleted</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="add_description">Description</label>
+                    <textarea id="add_description" name="description"
+                              rows="4"
+                              placeholder="Brief description of the folder"></textarea>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="cancel-button"
+                        onclick="closeAddModal()">Cancel</button>
+                <button type="submit" class="save-button">Create Folder</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- =====================================================
+     EDIT FOLDER MODAL
+====================================================== -->
+<div id="editFolderModal" class="modal">
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <div>
+                <h2>Edit Folder</h2>
+                <p>Update folder information</p>
+            </div>
+            <button type="button" class="close-button"
+                    onclick="closeEditModal()">×</button>
+        </div>
+
+        <form id="editFolderForm" method="POST">
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="edit_folder_id">Folder ID</label>
+                    <input id="edit_folder_id" type="text" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_project_id">Project</label>
+                    <select id="edit_project_id" name="project_id" required
+                            onchange="filterEditParents()">
+                        <option value="">Select project</option>
+                        {% for project in projects %}
+                            <option value="{{ project[0] }}">
+                                {{ project[0] }} - {{ project[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_folder_name">Folder Name</label>
+                    <input id="edit_folder_name" type="text"
+                           name="folder_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_parent_folder_id">Parent Folder</label>
+                    <select id="edit_parent_folder_id" name="parent_folder_id">
+                        <option value="">No Parent - Root Folder</option>
+                        {% for folder in parent_folders %}
+                            <option value="{{ folder[0] }}"
+                                    data-project="{{ folder[2] }}">
+                                {{ folder[0] }} - {{ folder[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_status">Status</label>
+                    <select id="edit_status" name="status" required>
+                        <option value="Active">Active</option>
+                        <option value="Archived">Archived</option>
+                        <option value="Deleted">Deleted</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="edit_description">Description</label>
+                    <textarea id="edit_description" name="description"
+                              rows="4"></textarea>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="cancel-button"
+                        onclick="closeEditModal()">Cancel</button>
+                <button type="submit" class="save-button">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+function openAddModal() {
+    document.getElementById("addFolderModal").style.display = "flex";
+    filterAddParents();
+}
+
+function closeAddModal() {
+    document.getElementById("addFolderModal").style.display = "none";
+}
+
+function openEditModal(button) {
+    const folderId = button.dataset.id;
+
+    document.getElementById("editFolderForm").action =
+        "/folders/edit/" + encodeURIComponent(folderId);
+
+    document.getElementById("edit_folder_id").value = folderId;
+    document.getElementById("edit_folder_name").value = button.dataset.name || "";
+    document.getElementById("edit_project_id").value = button.dataset.project || "";
+    document.getElementById("edit_parent_folder_id").value = "";
+    document.getElementById("edit_description").value = button.dataset.description || "";
+    document.getElementById("edit_status").value = button.dataset.status || "Active";
+
+    filterEditParents();
+
+    // Restore the existing parent after filtering.
+    document.getElementById("edit_parent_folder_id").value =
+        button.dataset.parent || "";
+
+    document.getElementById("editFolderModal").style.display = "flex";
+}
+
+function closeEditModal() {
+    document.getElementById("editFolderModal").style.display = "none";
+}
+
+function filterAddParents() {
+    const projectId = document.getElementById("add_project_id").value;
+    const select = document.getElementById("add_parent_folder_id");
+
+    Array.from(select.options).forEach(function(option, index) {
+        if (index === 0) return;
+        option.hidden = option.dataset.project !== projectId;
+        option.disabled = option.hidden;
+    });
+
+    if (select.selectedOptions.length &&
+        select.selectedOptions[0].disabled) {
+        select.value = "";
+    }
+}
+
+function filterEditParents() {
+    const projectId = document.getElementById("edit_project_id").value;
+    const select = document.getElementById("edit_parent_folder_id");
+
+    Array.from(select.options).forEach(function(option, index) {
+        if (index === 0) return;
+        option.hidden = option.dataset.project !== projectId;
+        option.disabled = option.hidden;
+    });
+
+    if (select.selectedOptions.length &&
+        select.selectedOptions[0].disabled) {
+        select.value = "";
+    }
+}
+
+window.addEventListener("click", function(event) {
+    const addModal = document.getElementById("addFolderModal");
+    const editModal = document.getElementById("editFolderModal");
+
+    if (event.target === addModal) closeAddModal();
+    if (event.target === editModal) closeEditModal();
+});
+</script>
+
+</body>
+</html>

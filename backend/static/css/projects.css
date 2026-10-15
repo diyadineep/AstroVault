@@ -1,0 +1,420 @@
+/* =====================================================
+   ADD PROJECT BUTTON
+===================================================== */
+
+.add-button {
+
+    border: none;
+
+    background: #0b2d50;
+
+    color: white;
+
+    padding: 13px 21px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.add-button:hover {
+
+    background: #124d79;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =====================================================
+   FLASH MESSAGES
+===================================================== */
+
+.flash-message {
+
+    padding: 13px 16px;
+
+    margin-bottom: 20px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+
+}
+
+
+.flash-success {
+
+    background: #dcfce7;
+
+    color: #166534;
+
+    border: 1px solid #bbf7d0;
+
+}
+
+
+.flash-error {
+
+    background: #fee2e2;
+
+    color: #b91c1c;
+
+    border: 1px solid #fecaca;
+
+}
+
+
+/* =====================================================
+   MODAL BACKGROUND
+===================================================== */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    background:
+        rgba(
+            15,
+            23,
+            42,
+            0.60
+        );
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 1000;
+
+    padding: 30px;
+
+}
+
+
+/* =====================================================
+   MODAL CARD
+===================================================== */
+
+.modal-card {
+
+    width: 100%;
+
+    max-width: 760px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 25px 70px
+        rgba(
+            0,
+            0,
+            0,
+            0.20
+        );
+
+}
+
+
+/* =====================================================
+   MODAL HEADER
+===================================================== */
+
+.modal-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 26px;
+
+}
+
+
+.modal-header h2 {
+
+    font-size: 24px;
+
+    margin-bottom: 6px;
+
+}
+
+
+.modal-header p {
+
+    font-size: 13px;
+
+    color: #64748b;
+
+}
+
+
+.close-button {
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 30px;
+
+    color: #64748b;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   FORM LAYOUT
+===================================================== */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            1fr
+        );
+
+    gap: 18px;
+
+}
+
+
+.form-group {
+
+    margin-bottom: 18px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #334155;
+
+}
+
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border:
+        1px solid
+        #cbd5e1;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    font-family: inherit;
+
+    background: white;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            37,
+            99,
+            235,
+            0.10
+        );
+
+}
+
+
+.form-group textarea {
+
+    resize: vertical;
+
+}
+
+
+/* =====================================================
+   MODAL BUTTONS
+===================================================== */
+
+.modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 10px;
+
+}
+
+
+.cancel-button,
+.save-button {
+
+    border: none;
+
+    padding: 11px 21px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+}
+
+
+.cancel-button {
+
+    background: #e2e8f0;
+
+    color: #334155;
+
+}
+
+
+.save-button {
+
+    background: #0b2d50;
+
+    color: white;
+
+}
+
+
+.save-button:hover {
+
+    background: #124d79;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width: 700px) {
+
+    .form-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+/* =========================================
+   TABLE ACTION BUTTONS
+   ========================================= */
+
+table td:last-child {
+    white-space: nowrap;
+}
+
+table td:last-child button,
+table td:last-child a,
+table td:last-child input[type="submit"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 14px;
+    min-height: 36px;
+    margin: 3px 4px 3px 0;
+    border: none;
+    border-radius: 10px;
+    background: #e8efff;
+    color: #315a9e;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background 0.2s ease;
+}
+
+table td:last-child button:hover,
+table td:last-child a:hover,
+table td:last-child input[type="submit"]:hover {
+    background: #d8e4ff;
+}
+
+/* Keep action forms aligned */
+table td:last-child form {
+    display: inline-flex;
+    margin: 3px 5px 3px 0;
+    vertical-align: middle;
+}
+
+/* Download links */
+table td:last-child a {
+    text-decoration: none;
+}
+
+/* Archive buttons */
+table td:last-child button.archive-button,
+table td:last-child .archive-button,
+table td:last-child button[name="archive"] {
+    background: #fff0ed;
+    color: #c0392b;
+}
+
+table td:last-child button.archive-button:hover,
+table td:last-child .archive-button:hover,
+table td:last-child button[name="archive"]:hover {
+    background: #ffe0da;
+}

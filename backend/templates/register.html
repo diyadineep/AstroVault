@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | AstroVault</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="auth-container">
+        <section class="auth-card">
+            <h1>AstroVault</h1>
+            <p class="subtitle">Create your research account</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+
+            <h2>Create account</h2>
+
+            <form method="POST" action="{{ url_for('register') }}">
+                <label for="first_name">First name</label>
+                <input type="text" id="first_name" name="first_name" maxlength="50" required>
+
+                <label for="last_name">Last name</label>
+                <input type="text" id="last_name" name="last_name" maxlength="50" required>
+
+                <label for="org_id">Organization ID</label>
+                <input type="number" id="org_id" name="org_id" min="1" required>
+
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" maxlength="150" required>
+
+                <label for="phone_no">Phone number</label>
+                <input type="tel" id="phone_no" name="phone_no" maxlength="15" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password"
+                       minlength="8" required>
+
+                <button type="submit">Create Account</button>
+            </form>
+
+            <p class="auth-link">
+                Already registered?
+                <a href="{{ url_for('login') }}">Sign in</a>
+            </p>
+        </section>
+    </main>
+</body>
+</html>

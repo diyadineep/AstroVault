@@ -1,0 +1,54 @@
+/* ==========================================
+   ACTIVITY LOGS
+   ========================================== */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    text-align: left;
+    padding: 15px 14px;
+    font-size: 13px;
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+    white-space: nowrap;
+}
+
+tbody td {
+    padding: 16px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+
+/* ACTION BADGE */
+
+.action-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* DESCRIPTION */
+
+.description-cell {
+    max-width: 300px;
+    line-height: 1.5;
+    color: #475569;
+}

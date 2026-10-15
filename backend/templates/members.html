@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroVault | Project Members</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/members.css') }}">
+</head>
+
+<body>
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">AV</div>
+            <div>
+                <h2>AstroVault</h2>
+                <p>Research Workspace</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="/dashboard" class="nav-item">Dashboard</a>
+            <a href="/users" class="nav-item">Users</a>
+            <a href="/projects" class="nav-item">Projects</a>
+            <a href="/members" class="nav-item active">Project Members</a>
+            <a href="/folders" class="nav-item">Folders</a>
+            <a href="/files" class="nav-item">Files</a>
+            <a href="/versions" class="nav-item">File Versions</a>
+            <a href="/activity" class="nav-item">Activity Logs</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="/logout" class="logout-button">Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <div class="top-header">
+            <div>
+                <h1>Project Members</h1>
+                <p>Assign users to research projects and manage their roles</p>
+            </div>
+
+            <button type="button" class="add-button"
+                    onclick="openAddModal()">
+                + Add Member
+            </button>
+        </div>
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- MEMBERS TABLE -->
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h3>All Project Members</h3>
+                    <p>Users assigned to projects in your organization</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Member ID</th>
+                        <th>Project</th>
+                        <th>User</th>
+                        <th>Project Role</th>
+                        <th>Joined Date</th>
+                        <th>Assigned By</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for member in members %}
+                        <tr>
+                            <td>{{ member[0] }}</td>
+                            <td>{{ member[2] }}</td>
+                            <td>{{ ((member[4] or '') ~ ' ' ~ (member[5] or ''))|trim }}</td>
+                            <td>{{ member[6] }}</td>
+                            <td>{{ member[7] or '-' }}</td>
+                            <td>
+                                {{ ((member[10] or '') ~ ' ' ~ (member[11] or ''))|trim or 'Unknown' }}
+                            </td>
+                            <td>
+                                <span class="status
+                                    {% if member[8] == 'Active' %}
+                                        status-active
+                                    {% else %}
+                                        status-other
+                                    {% endif %}">
+                                    {{ member[8] or 'Unknown' }}
+                                </span>
+                            </td>
+                            <td>
+                                <button
+                                    type="button"
+                                    class="edit-project-btn"
+                                    data-id="{{ member[0] }}"
+                                    data-project="{{ member[1] }}"
+                                    data-user="{{ member[3] }}"
+                                    data-role="{{ member[6] }}"
+                                    data-status="{{ member[8] }}"
+                                    onclick="openEditModal(this)">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">
+                                No project members found. Click Add Member to assign a user.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+
+<!-- =====================================================
+     ADD MEMBER MODAL
+====================================================== -->
+<div id="addMemberModal" class="modal">
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <div>
+                <h2>Add Project Member</h2>
+                <p>Assign a user to a research project</p>
+            </div>
+
+            <button type="button" class="close-button"
+                    onclick="closeAddModal()">×</button>
+        </div>
+
+        <form method="POST" action="{{ url_for('add_member') }}">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="add_member_id">Member ID</label>
+                    <input id="add_member_id" type="number"
+                           name="member_id" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_project_id">Project</label>
+                    <select id="add_project_id" name="project_id" required>
+                        <option value="">Select project</option>
+                        {% for project in projects %}
+                            <option value="{{ project[0] }}">
+                                {{ project[0] }} - {{ project[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_user_id">User</label>
+                    <select id="add_user_id" name="user_id" required>
+                        <option value="">Select user</option>
+                        {% for user in users %}
+                            <option value="{{ user[0] }}">
+                                {{ user[0] }} - {{ user[1] }} {{ user[2] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_project_role">Project Role</label>
+                    <select id="add_project_role" name="project_role" required>
+                        <option value="">Select role</option>
+                        <option value="Project Manager">Project Manager</option>
+                        <option value="Researcher">Researcher</option>
+                        <option value="Developer">Developer</option>
+                        <option value="Analyst">Analyst</option>
+                        <option value="Viewer">Viewer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_status">Status</label>
+                    <select id="add_status" name="status" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="cancel-button"
+                        onclick="closeAddModal()">Cancel</button>
+                <button type="submit" class="save-button">Add Member</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<!-- =====================================================
+     EDIT MEMBER MODAL
+====================================================== -->
+<div id="editMemberModal" class="modal">
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <div>
+                <h2>Edit Project Member</h2>
+                <p>Update the member's project assignment</p>
+            </div>
+
+            <button type="button" class="close-button"
+                    onclick="closeEditModal()">×</button>
+        </div>
+
+        <form id="editMemberForm" method="POST">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="edit_member_id">Member ID</label>
+                    <input id="edit_member_id" type="text" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_project_id">Project</label>
+                    <select id="edit_project_id" name="project_id" required>
+                        <option value="">Select project</option>
+                        {% for project in projects %}
+                            <option value="{{ project[0] }}">
+                                {{ project[0] }} - {{ project[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_user_id">User</label>
+                    <select id="edit_user_id" name="user_id" required>
+                        <option value="">Select user</option>
+                        {% for user in users %}
+                            <option value="{{ user[0] }}">
+                                {{ user[0] }} - {{ user[1] }} {{ user[2] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_project_role">Project Role</label>
+                    <select id="edit_project_role" name="project_role" required>
+                        <option value="Project Manager">Project Manager</option>
+                        <option value="Researcher">Researcher</option>
+                        <option value="Developer">Developer</option>
+                        <option value="Analyst">Analyst</option>
+                        <option value="Viewer">Viewer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_status">Status</label>
+                    <select id="edit_status" name="status" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="cancel-button"
+                        onclick="closeEditModal()">Cancel</button>
+                <button type="submit" class="save-button">Save Changes</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<script>
+function openAddModal() {
+    document.getElementById("addMemberModal").style.display = "flex";
+}
+
+function closeAddModal() {
+    document.getElementById("addMemberModal").style.display = "none";
+}
+
+function openEditModal(button) {
+    const memberId = button.dataset.id;
+
+    document.getElementById("editMemberForm").action =
+        "/members/edit/" + encodeURIComponent(memberId);
+
+    document.getElementById("edit_member_id").value = memberId;
+    document.getElementById("edit_project_id").value = button.dataset.project;
+    document.getElementById("edit_user_id").value = button.dataset.user;
+    document.getElementById("edit_project_role").value = button.dataset.role;
+    document.getElementById("edit_status").value = button.dataset.status;
+
+    document.getElementById("editMemberModal").style.display = "flex";
+}
+
+function closeEditModal() {
+    document.getElementById("editMemberModal").style.display = "none";
+}
+
+window.addEventListener("click", function(event) {
+    const addModal = document.getElementById("addMemberModal");
+    const editModal = document.getElementById("editMemberModal");
+
+    if (event.target === addModal) closeAddModal();
+    if (event.target === editModal) closeEditModal();
+});
+</script>
+
+</body>
+</html>

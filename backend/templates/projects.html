@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroVault | Projects</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">AV</div>
+            <div>
+                <h2>AstroVault</h2>
+                <p>Research Workspace</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="/dashboard" class="nav-item">Dashboard</a>
+            <a href="/users" class="nav-item">Users</a>
+            <a href="/projects" class="nav-item active">Projects</a>
+            <a href="/members" class="nav-item">Project Members</a>
+            <a href="/folders" class="nav-item">Folders</a>
+            <a href="/files" class="nav-item">Files</a>
+            <a href="/versions" class="nav-item">File Versions</a>
+            <a href="/activity" class="nav-item">Activity Logs</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="/logout" class="logout-button">Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-header">
+            <div>
+                <h1>Projects</h1>
+                <p>Manage AstroVault research projects</p>
+            </div>
+            <button type="button" class="add-button" onclick="openAddModal()">
+                + Add Project
+            </button>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h3>All Projects</h3>
+                    <p>Live project records from PostgreSQL</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Project ID</th>
+                            <th>Project</th>
+                            <th>Organization</th>
+                            <th>Type</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Created By</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for project in projects %}
+                        <tr>
+                            <td>{{ project[0] }}</td>
+                            <td><strong>{{ project[1] }}</strong></td>
+                            <td>{{ project[6] or '-' }}</td>
+                            <td>{{ project[2] or '-' }}</td>
+                            <td>{{ project[3] or '-' }}</td>
+                            <td>{{ project[4] or '-' }}</td>
+                            <td>{{ ((project[7] or '') ~ ' ' ~ (project[8] or ''))|trim or 'Unknown' }}</td>
+                            <td>
+                                <span class="status
+                                    {% if project[5] == 'Active' %}
+                                        status-active
+                                    {% elif project[5] == 'Planning' %}
+                                        status-planning
+                                    {% else %}
+                                        status-other
+                                    {% endif %}">
+                                    {{ project[5] }}
+                                </span>
+                            </td>
+                            <td>
+                                <button
+                                    type="button"
+                                    class="edit-project-btn"
+                                    data-id="{{ project[0] }}"
+                                    data-name="{{ project[1] }}"
+                                    data-org="{{ project[11] }}"
+                                    data-type="{{ project[2] or '' }}"
+                                    data-start="{{ project[3].strftime('%Y-%m-%d') if project[3] else '' }}"
+                                    data-end="{{ project[4].strftime('%Y-%m-%d') if project[4] else '' }}"
+                                    data-status="{{ project[5] }}"
+                                    data-description="{{ project[9] or '' }}"
+                                    onclick="openEditModal(this)">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="9">No projects found. Click Add Project to create one.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- ADD PROJECT MODAL -->
+<div id="addProjectModal" class="modal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <div>
+                <h2>Add New Project</h2>
+                <p>Create a new research project</p>
+            </div>
+            <button type="button" class="close-button" onclick="closeAddModal()">×</button>
+        </div>
+
+        <form method="POST" action="{{ url_for('add_project') }}">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="add_project_id">Project ID</label>
+                    <input id="add_project_id" type="number" name="project_id" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_project_name">Project Name</label>
+                    <input id="add_project_name" type="text" name="project_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_org_id">Organization</label>
+                    <select id="add_org_id" name="org_id" required>
+                        <option value="">Select organization</option>
+                        {% for org in organizations %}
+                        <option value="{{ org[0] }}">{{ org[0] }} - {{ org[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="add_project_type">Project Type</label>
+                    <input id="add_project_type" type="text" name="project_type" placeholder="Example: CubeSat">
+                </div>
+
+                <div class="form-group">
+                    <label for="add_start_date">Start Date</label>
+                    <input id="add_start_date" type="date" name="start_date">
+                </div>
+
+                <div class="form-group">
+                    <label for="add_end_date">End Date</label>
+                    <input id="add_end_date" type="date" name="end_date">
+                </div>
+
+                <div class="form-group">
+                    <label for="add_status">Status</label>
+                    <select id="add_status" name="status" required>
+                        <option value="Planning">Planning</option>
+                        <option value="Active">Active</option>
+                        <option value="On Hold">On Hold</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="add_description">Description</label>
+                <textarea id="add_description" name="description" rows="4"
+                          placeholder="Describe the research project"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="cancel-button" onclick="closeAddModal()">Cancel</button>
+                <button type="submit" class="save-button">Create Project</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- EDIT PROJECT MODAL -->
+<div id="editProjectModal" class="modal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <div>
+                <h2>Edit Project</h2>
+                <p>Update the project details</p>
+            </div>
+            <button type="button" class="close-button" onclick="closeEditModal()">×</button>
+        </div>
+
+        <form id="editProjectForm" method="POST">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="edit_project_id">Project ID</label>
+                    <input id="edit_project_id" type="text" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_project_name">Project Name</label>
+                    <input id="edit_project_name" type="text" name="project_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_org_id">Organization</label>
+                    <select id="edit_org_id" name="org_id" required>
+                        <option value="">Select organization</option>
+                        {% for org in organizations %}
+                        <option value="{{ org[0] }}">{{ org[0] }} - {{ org[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_project_type">Project Type</label>
+                    <input id="edit_project_type" type="text" name="project_type">
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_start_date">Start Date</label>
+                    <input id="edit_start_date" type="date" name="start_date">
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_end_date">End Date</label>
+                    <input id="edit_end_date" type="date" name="end_date">
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_status">Status</label>
+                    <select id="edit_status" name="status" required>
+                        <option value="Planning">Planning</option>
+                        <option value="Active">Active</option>
+                        <option value="On Hold">On Hold</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="edit_description">Description</label>
+                <textarea id="edit_description" name="description" rows="4"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="cancel-button" onclick="closeEditModal()">Cancel</button>
+                <button type="submit" class="save-button">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openAddModal() {
+    document.getElementById("addProjectModal").style.display = "flex";
+}
+
+function closeAddModal() {
+    document.getElementById("addProjectModal").style.display = "none";
+}
+
+function openEditModal(button) {
+    const projectId = button.dataset.id;
+
+    document.getElementById("editProjectForm").action =
+        "/projects/edit/" + encodeURIComponent(projectId);
+
+    document.getElementById("edit_project_id").value = projectId;
+    document.getElementById("edit_project_name").value = button.dataset.name || "";
+    document.getElementById("edit_org_id").value = button.dataset.org || "";
+    document.getElementById("edit_project_type").value = button.dataset.type || "";
+    document.getElementById("edit_start_date").value = button.dataset.start || "";
+    document.getElementById("edit_end_date").value = button.dataset.end || "";
+    document.getElementById("edit_status").value = button.dataset.status || "Planning";
+    document.getElementById("edit_description").value = button.dataset.description || "";
+
+    document.getElementById("editProjectModal").style.display = "flex";
+}
+
+function closeEditModal() {
+    document.getElementById("editProjectModal").style.display = "none";
+}
+
+window.addEventListener("click", function(event) {
+    const addModal = document.getElementById("addProjectModal");
+    const editModal = document.getElementById("editProjectModal");
+
+    if (event.target === addModal) closeAddModal();
+    if (event.target === editModal) closeEditModal();
+});
+</script>
+
+</body>
+</html>

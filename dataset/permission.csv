@@ -1,0 +1,15 @@
+permission_id,permission_name,description,status,created_date
+4001,CREATE_PROJECT,Allows creation of new projects,Active,2026-01-01 10:00:00
+4002,UPDATE_PROJECT,Allows modification of existing project details,Active,2026-01-01 10:05:00
+4003,DELETE_PROJECT,Allows deletion or archival of projects,Active,2026-01-01 10:10:00
+4004,ADD_PROJECT_MEMBER,Allows adding users to a project,Active,2026-01-01 10:15:00
+4005,REMOVE_PROJECT_MEMBER,Allows removal of users from a project,Active,2026-01-01 10:20:00
+4006,CREATE_FOLDER,Allows creation of folders and subfolders,Active,2026-01-01 10:25:00
+4007,UPLOAD_FILE,Allows uploading new files to permitted projects,Active,2026-01-01 10:30:00
+4008,UPDATE_FILE,Allows uploading updated versions of existing files,Active,2026-01-01 10:35:00
+4009,DOWNLOAD_FILE,Allows downloading permitted files,Active,2026-01-01 10:40:00
+4010,DELETE_FILE,Allows deletion or soft-deletion of files,Active,2026-01-01 10:45:00
+4011,VIEW_VERSION_HISTORY,Allows viewing previous versions of a file,Active,2026-01-01 10:50:00
+4012,VIEW_ACTIVITY_LOG,Allows viewing organization or project activity logs,Active,2026-01-01 10:55:00
+4013,ASSIGN_ROLE,Allows assigning roles to users,Active,2026-01-01 11:00:00
+4014,MANAGE_USERS,Allows managing organization user accounts,Active,2026-01-01 11:05:00
