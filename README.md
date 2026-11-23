@@ -133,57 +133,21 @@ AstroVault uses a relational database consisting of **12 interconnected tables**
 ## 📂 Project Structure
 
 ```text
-ASTROVAULT_FINAL/
+ASTROVAULT/
 │
 ├── backend/
 │   ├── app.py
 │   ├── requirements.txt
-│   │
 │   ├── templates/
-│   │   ├── login.html
-│   │   ├── register.html
-│   │   ├── dashboard.html
-│   │   ├── users.html
-│   │   ├── projects.html
-│   │   ├── members.html
-│   │   ├── folders.html
-│   │   ├── files.html
-│   │   ├── versions.html
-│   │   └── activity.html
-│   │
 │   ├── static/
-│   │   └── css/
-│   │       ├── style.css
-│   │       ├── dashboard.css
-│   │       ├── users.css
-│   │       ├── projects.css
-│   │       ├── members.css
-│   │       ├── folders.css
-│   │       ├── files.css
-│   │       ├── versions.css
-│   │       └── activity.css
-│   │
 │   └── uploads/
 │
 ├── dataset/
-│   ├── organization.csv
-│   ├── app_user.csv
-│   ├── role.csv
-│   ├── permission.csv
-│   ├── user_role.csv
-│   ├── role_permission.csv
-│   ├── project.csv
-│   ├── project_member.csv
-│   ├── folder.csv
-│   ├── file.csv
-│   ├── file_version.csv
-│   └── activity_log.csv
+│   └── CSV files for 12 database tables
 │
 ├── sql/
 │   ├── schema.sql
 │   ├── main.sql
-│   ├── addons.sql
-│   ├── addons2.sql
 │   ├── indexes.sql
 │   └── queries.sql
 │
@@ -252,23 +216,7 @@ Execute the required SQL scripts from the `sql/` directory in the appropriate se
 
 The `dataset/` directory contains CSV files corresponding to the database tables.
 
-### 6. Configure Environment Variables
-
-Create a `.env` file inside the `backend/` directory and configure your local database credentials:
-
-```env
-SECRET_KEY=your_random_secret_key
-
-DB_USER=postgres
-DB_PASSWORD=your_postgresql_password
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=ASTROVAULT_FINAL
-```
-
-Replace the example values with your own PostgreSQL configuration. Do not commit your `.env` file to GitHub.
-
-### 7. Run the Application
+### 6. Run the Application
 
 From inside the `backend/` directory, execute:
 
@@ -294,7 +242,7 @@ The platform also incorporates role-based permissions to control access to prote
 
 ---
 
-## 🛣️ Future Scope
+##  Future Scope
 
 - ☁️ Integration with Azure Blob Storage for cloud-based document storage.
 - 🌐 Deployment using Azure App Service.
@@ -308,3 +256,7 @@ The platform also incorporates role-based permissions to control access to prote
 ## 👩‍💻 Repository
 
 **GitHub:** [AstroVault](https://github.com/diyadineep/AstroVault)
+
+---
+
+*Organizing research. Structuring knowledge. Empowering discovery. 🚀*
