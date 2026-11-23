@@ -253,10 +253,12 @@ The platform also incorporates role-based permissions to control access to prote
 
 ---
 
-## 👩‍💻 Repository
+## 👩‍💻 Author
+
+**Diya Dineep**
+
+Computer Science and Engineering | Artificial Intelligence
 
 **GitHub:** [AstroVault](https://github.com/diyadineep/AstroVault)
 
----
 
-*Organizing research. Structuring knowledge. Empowering discovery. 🚀*
